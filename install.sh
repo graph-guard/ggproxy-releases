@@ -300,13 +300,13 @@ prepare_user_linux() {
   id -u $SERVICE_USER >/dev/null 2>&1 || useradd -r $SERVICE_USER
   usermod -a -G $SERVICE_USER $SERVICE_USER
   usermod -a -G $SERVICE_USER $CURRENT_USER
+  log_info "current user added to the $SERVICE_USER group, please relogin to changes take effect"
 }
 
 prepare_user() {
   case "$OS" in
     linux) prepare_user_linux ;;
   esac
-  log_info "current user added to the $SERVICE_USER group, please relogin to changes take effect"
 }
 
 remove() {
@@ -339,8 +339,8 @@ install_darwin() {
     log_info "binary installed to ${BINDIR}/${binexe}"
   done
   cp -rn "${TMPDIR}/etc/"* "${CONFDIR}/"
-  find ${CONFDIR}/ggproxy -type d -exec chmod 775 -- {} +
-  find ${CONFDIR}/ggproxy -type f -exec chmod 664 -- {} +
+  find ${CONFDIR}/ggproxy -type d -exec chmod 775 {} +
+  find ${CONFDIR}/ggproxy -type f -exec chmod 664 {} +
   log_info "configs installed to ${CONFDIR}/ggproxy"
 }
 
